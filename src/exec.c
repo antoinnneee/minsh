@@ -1,41 +1,41 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-static int	exec_builtin(t_cmd *cmd, t_msh **msh)
+static int	exec_builtin(t_cmd **cmd, t_msh **msh)
 {
-	if (!ft_strcmp(cmd->prog, "echo"))
+	if (!ft_strcmp((*cmd)->prog, "echo"))
 		;
-	else if (!ft_strcmp(cmd->prog, "cd"))
-		run_cd(cmd, *msh);
-	else if (!ft_strcmp(cmd->prog, "pwd"))
-		run_pwd(cmd, *msh);
-	else if (!ft_strcmp(cmd->prog, "setenv"))
-		run_setenv(cmd, msh);
-	else if (!ft_strcmp(cmd->prog, "unsetenv"))
-		run_unset(cmd, msh);
-	else if (!ft_strcmp(cmd->prog, "env"))
-		run_env(cmd, *msh);
-	else if (!ft_strcmp(cmd->prog, "exit") || !ft_strcmp(cmd->prog, "q"))
-		run_exit(cmd, *msh);
+	else if (!ft_strcmp((*cmd)->prog, "cd"))
+		run_cd(*cmd, *msh);
+	else if (!ft_strcmp((*cmd)->prog, "pwd"))
+		run_pwd(*cmd, *msh);
+	else if (!ft_strcmp((*cmd)->prog, "setenv"))
+		run_setenv(*cmd, msh);
+	else if (!ft_strcmp((*cmd)->prog, "unsetenv"))
+		run_unset(*cmd, msh);
+	else if (!ft_strcmp((*cmd)->prog, "env"))
+		run_env(cmd, msh);
+	else if (!ft_strcmp((*cmd)->prog, "exit") || !ft_strcmp((*cmd)->prog, "q"))
+		run_exit(*cmd, *msh);
 	else
 		return (0);
 	return (1);
 }
 
-void		exec_cmd(t_cmd *cmd, t_msh **msh, t_msh	**nmsh)
+void		exec_cmd(t_cmd **cmd, t_msh **msh, t_msh	**nmsh)
 {
 	if (!nmsh)
 	{
 		if (!exec_builtin(cmd, msh))
 		{
-			execute(cmd->prog, cmd, msh, nmsh);
+			execute((*cmd)->prog, *cmd, msh, NULL);
 		}
 	}
 	else
 	{
 		if (!exec_builtin(cmd, nmsh))
 		{
-			execute(cmd->prog, cmd, msh, nmsh);
+			execute((*cmd)->prog, *cmd, msh, nmsh);
 		}
 	}
 }

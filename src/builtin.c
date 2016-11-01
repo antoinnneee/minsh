@@ -9,11 +9,11 @@ void	run_exit(t_cmd *cmd, t_msh *msh)
 	if (cmd)
 		free_cmd(cmd);
 	if (msh)
-		free_msh(msh);
+		free_msh(&msh);
 	exit(0);
 }
 
-static int ft_strlensquare(char **env)
+int		ft_strlensquare(char **env)
 {
 	int	i;
 
@@ -22,6 +22,7 @@ static int ft_strlensquare(char **env)
 	{
 		i++;	
 	}
+	i++;
 	return (i);
 }
 
@@ -36,15 +37,15 @@ static t_msh	*cpy_env(t_msh *msh)
 	tmp = (t_msh*)ft_memalloc(sizeof(t_msh));
 	if(!tmp)
 		return (NULL);
-	tmp->env = (char**)ft_memalloc(sizeof(char*) * (cnt + 1));
+	tmp->env = (char**)ft_memalloc(sizeof(char*) * (cnt));
 	while (msh->env[i])
 	{
 		tmp->env[i] = ft_strdup(msh->env[i]);
 		i++;
 	}
-	tmp->env[i] = NULL;
+	i = 0;
 	cnt = ft_strlensquare(msh->path);
-	tmp->path = (char**)ft_memalloc(sizeof(char*) * (cnt + 1));
+	tmp->path = (char**)ft_memalloc(sizeof(char*) * (cnt));
 	while (msh->path[i])
 	{
 		tmp->path[i] = ft_strdup(msh->path[i]);
@@ -53,6 +54,126 @@ static t_msh	*cpy_env(t_msh *msh)
 	return (tmp);
 }
 
+void	run_env(t_cmd **cmd, t_msh **msh)
+{
+	int		i;
+	t_msh	*tmp;
+	unsigned int		opt;
+	int		process;
+
+	opt = 0;
+	process = 0;
+	if (!*msh)
+		return;	
+	tmp = cpy_env(*msh);
+/*
+	while (msh->path[i])
+	{
+//		ft_putendl(msh->path[i]);
+		i++;
+	}
+*/
+	i = 0;
+	if ((*cmd)->option)
+	{
+		while ((*cmd)->option[i])
+		{
+			if (isbegin("-0", (*cmd)->option[i]) || isbegin("--null", (*cmd)->option[i]))
+			{
+				opt = opt | (1U << 0);
+			}
+			else if (isbegin("--unset=", (*cmd)->option[i]))
+			{
+				unset_env(&(*cmd)->option[i][ft_strlen("--unset=")], &tmp);
+			}
+			else if (isbegin("-u", (*cmd)->option[i]))
+			{
+				opt = opt | (1U << 1);
+				process = 1;
+			}
+			else if (isbegin("-i", (*cmd)->option[i]))
+			{
+				if (tmp)
+				free_msh(&tmp);
+				tmp = NULL;
+			}
+			else if (isbegin("-v", (*cmd)->option[i]) || isbegin("--version", (*cmd)->option[i]))
+			{
+				print_env_v();
+				if (tmp)
+					free_msh(&tmp);
+				return ;
+			}
+			else if (isbegin("-h", (*cmd)->option[i]) || isbegin("--help", (*cmd)->option[i]))
+			{
+				print_env_help();
+				if (tmp)
+					free_msh(&tmp);
+				return ;
+			}
+			else
+			{
+				ft_putstr("invalid option :");
+				ft_putendl((*cmd)->option[i]);
+				if (tmp)
+					free_msh(&tmp);
+				return ;
+			}
+			i++;
+		}
+	}
+	i = 0;
+	if (opt & (1U << 1))
+	{
+//	========================================================================== //
+		if ((*cmd)->param)
+		{
+			while (tmp->env[i])
+			{
+				if(beginby((*cmd)->param[0], tmp->env[i]))
+					unset_env((*cmd)->param[0], &tmp);
+				i++;
+			}
+			i = 0;
+			if (opt & (1U << 0) && (*cmd)->param[1])
+			{
+				ft_putendl("env: cannot specify --null (-0) with command");
+				ft_putendl("try 'env --help' for more informqtion.");
+			}
+			else if ((*cmd)->param[1])
+			{
+				*cmd = mod_cmd(cmd, 1);
+				print_detail_cmd(*cmd);
+				ft_putendl("CMD mod reussit");
+				exec_cmd(cmd, msh, &tmp);
+				ft_putendl("free tmp passed");
+			}
+			else
+			{
+				print_msh(tmp, opt);
+			}
+		}
+		else
+		{
+			ft_putendl("env: option requires an argument '-u'");
+			if (tmp)
+				free_msh(&tmp);
+			return ;
+		}
+//	========================================================================== //	
+	}
+	else if (tmp)
+	{
+			ft_putendl("debug");
+			if (!(*cmd)->param)
+				print_msh(tmp, opt);	
+	}
+	if (tmp)
+		free_msh(&tmp);
+
+}
+
+/*
 void	run_env(t_cmd *cmd, t_msh *msh)
 {
 	int		i;
@@ -65,53 +186,14 @@ void	run_env(t_cmd *cmd, t_msh *msh)
 	opt = 0;
 	process = 0;
 	tmp = cpy_env(msh);
-	if (cmd->param)
+	while (tmp->env[i])
 	{
-		while (cmd->option[i])
-		{
-			if (isbegin("-0", cmd->option[i]) || isbegin("-null", cmd->option[i]))
-				opt = opt | (1U << 0);
-			else if (isbegin("--unset=", cmd->option[i]))
-			{
-				unset_env(&cmd->option[i][ft_strlen("--unset=")], &tmp);
-			}
-			else if (isbegin("-u", cmd->option[i]))
-			{
-				opt = opt | (1U << 1);
-				process = 1;
-			}
-			else
-			{
-				ft_putstr("invalid option :");
-				ft_putendl(cmd->option[i]);
-				return ;
-			}
-			i++;
-		}
+		ft_putendl(tmp->env[i]);
+		i++;
 	}
 	i = 0;
 	if (cmd->param)
 	{
-			if (opt & (1U << 1))
-			{
-				if (cmd->param[0])
-				{
-					unset_env(cmd->param[0], &tmp);
-					if (cmd->param[1])
-					{
-						cmd = mod_cmd(&cmd, 1);
-					}
-				}
-				else
-				{
-					ft_putendl("env: option requires an argument '-u'");
-					return ;
-				}
-			}
-			else
-			{
-				
-			}
 	}
 	else if (opt & (1U << 1))
 	{
@@ -120,7 +202,11 @@ void	run_env(t_cmd *cmd, t_msh *msh)
 	else
 	{
 		cmd = mod_cmd(&cmd, 0);
-		exec_cmd();
+		exec_cmd(cmd, &msh, &tmp);
+		print_detail_cmd(cmd);
+		ft_putendl("CMD mod reussit");
+		free_msh(tmp);
+
 	}
 	i = 0;
 	while (tmp->env[i])
@@ -132,6 +218,7 @@ void	run_env(t_cmd *cmd, t_msh *msh)
 		i++;
 	}
 }
+*/
 
 t_cmd	*mod_cmd(t_cmd	**cmd, int i)
 {
@@ -145,13 +232,23 @@ t_cmd	*mod_cmd(t_cmd	**cmd, int i)
 	j = i;
  	k = 0;
 	if ((*cmd)->param[i])
+	{
 		while ((*cmd)->param[j] && isbegin("-", (*cmd)->param[j]))
 		{
 			j++;
 		}
+	}
+	else
+	{
+		if (*cmd)
+			free_cmd(*cmd);
+		return (ncmd);
+	}
+
 	ncmd->option = (char **)ft_memalloc(sizeof(char*) * (j - i));
 	while (j - i > 0)
 	{
+//	=============================================explore here=================
 		ncmd->option[k] = ft_strdup((*cmd)->param[i]);
 		k++;
 		i++;
@@ -165,7 +262,7 @@ t_cmd	*mod_cmd(t_cmd	**cmd, int i)
 	ncmd->param = (char **)ft_memalloc(sizeof(char*) * (j - i));
 	while (j - i > 0)
 	{
-		ncmd->option[k] = ft_strdup((*cmd)->param[i]);
+		ncmd->param[k] = ft_strdup((*cmd)->param[i]);
 		k++;
 		i++;
 	}

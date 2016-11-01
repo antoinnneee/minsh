@@ -76,7 +76,7 @@ void		unset_env(char *name, t_msh **msh)
 
 	i = 0;
 	j = 0;
-	tmpenv = (char**)ft_memalloc(sizeof(char*) * ((*msh)->enb) + 1);
+	tmpenv = (char**)ft_memalloc(sizeof(char*) * (ft_strlensquare((*msh)->env)));
 	while ((*msh)->env[i])
 	{
 		if(beginby(name, (*msh)->env[i]))
@@ -90,7 +90,6 @@ void		unset_env(char *name, t_msh **msh)
 			j++;
 		}
 	}
-	tmpenv[j] = NULL;
 	i = 0;
 	while ((*msh)->env[i])
 	{

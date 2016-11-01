@@ -38,14 +38,12 @@ t_cmd	*split_cmd(char *commande)
 				free(tmp);
 			}
 			i = i + nb;
-			if (commande[i] == '=')
-				cmd->param = ft_strsplit(&commande[i + 1], ' ');
-			else
+			if (commande[i])
 				cmd->param = ft_strsplit(&commande[i], ' ');
 			free(commande);
 			return (cmd);
 		}
-		i++;	
+		i++;
 	}
 	cmd->prog = ft_strdup(commande);
 	cmd->param = NULL;
@@ -91,10 +89,12 @@ t_msh	*copy_env(void)
 
 	i = 0;
 	j = 0;
-	msh = (t_msh*)ft_memalloc(sizeof(t_msh));
-	ft_bzero(msh, sizeof(t_msh));
 	while (environ[i])
 		i++;
+	if (i == 0)
+		return (NULL);
+	msh = (t_msh*)ft_memalloc(sizeof(t_msh));
+	ft_bzero(msh, sizeof(t_msh));
 	msh->enb = i;
 	msh->env = (char**)ft_memalloc(sizeof(char*) * (i + 1));	
 	i = 0;
@@ -125,7 +125,8 @@ char	**copy_path(char **env)
 		path = ft_strsplit(&tmp[ft_strlen("PATH=")], ':');
 		return (path);
 	}
-	return (NULL);
+	else
+		return (NULL);
 }
 
 int main(void)
@@ -136,6 +137,11 @@ int main(void)
 
 	clear_term();
 	msh = copy_env();
+	if (!msh)
+	{
+		ft_putendl("No env, exitting");
+		exit(0);
+	}
 	msh->path = copy_path(msh->env);
 	buf = (char**)ft_memalloc(sizeof(char*));
 	while (get_next_line(0, buf))
@@ -145,10 +151,10 @@ int main(void)
 			if ((cmd = parse_command(*buf)))
 			{
 				print_detail_cmd(cmd);
-				exec_cmd(cmd, &msh);
+				exec_cmd(&cmd, &msh, NULL);
 			}
 		}
-				free_cmd(cmd);
+		free_cmd(cmd);
 		ft_putstr("minsh:> ");
 	}
 	return (0);

@@ -5,14 +5,15 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abureau <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/10/25 17:36:19 by abureau           #+#    #+#              #
-#    Updated: 2016/10/25 17:36:19 by abureau          ###   ########.fr        #
+#    Created: 2016/10/31 18:01:49 by abureau           #+#    #+#              #
+#    Updated: 2016/10/31 18:01:49 by abureau          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = minish
 
-SRC = ./src/builtin.c \
+SRC = ./src/env.c \
+	./src/builtin.c \
 	./src/run_func.c \
 	./src/secure_cat.c \
 	./src/execute.c \

@@ -15,10 +15,10 @@ void	free_tab(char **tab)
 		while (tab[i])
 		{
 			free(tab[i]);
-			tab[i] = NULL;
 			i++;
 		}
 		free(tab);
+		tab = NULL;
 	}
 }
 
@@ -55,10 +55,10 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	free_msh(t_msh *msh)
+void	free_msh(t_msh **tmp)
 {
 	int	i;
-
+	t_msh *msh = *tmp;
 	i = 0;
 	if (msh)
 	{
@@ -67,9 +67,11 @@ void	free_msh(t_msh *msh)
 			while (msh->env[i])
 			{
 				free(msh->env[i]);
+				msh->env[i] = NULL;
 				i++;
 			}
 			free(msh->env);
+			msh->env = NULL;
 		}
 		i = 0;
 		if (msh->path)
@@ -77,11 +79,14 @@ void	free_msh(t_msh *msh)
 			while (msh->path[i])
 			{
 				free(msh->path[i]);
+				msh->path[i] = NULL;
 				i++;
 			}
 			free(msh->path);
+			msh->path = NULL;
 		}
 		free(msh);
+		msh = NULL;
 	}
 }
 
