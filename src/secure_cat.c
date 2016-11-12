@@ -13,8 +13,10 @@ char	*secure_cat(char *dest, char *str, int state)
 		ft_strdel(&dest);
 	if (state)
 		if (str)
-		ft_strdel(&str);
+			ft_strdel(&str);
 	mstr[llen] = '\0';
+	if (!ft_strlen(mstr))
+		free(mstr);
 	return (mstr);	
 }
 

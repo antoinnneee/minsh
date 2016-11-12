@@ -4,11 +4,11 @@
 static int	exec_builtin(t_cmd **cmd, t_msh **msh)
 {
 	if (!ft_strcmp((*cmd)->prog, "echo"))
-		;
+		run_echo(*cmd, *msh);
 	else if (!ft_strcmp((*cmd)->prog, "cd"))
 		run_cd(*cmd, *msh);
 	else if (!ft_strcmp((*cmd)->prog, "pwd"))
-		run_pwd(*cmd, *msh);
+		run_pwd();
 	else if (!ft_strcmp((*cmd)->prog, "setenv"))
 		run_setenv(*cmd, msh);
 	else if (!ft_strcmp((*cmd)->prog, "unsetenv"))
@@ -40,31 +40,28 @@ void		exec_cmd(t_cmd **cmd, t_msh **msh, t_msh	**nmsh)
 	}
 }
 
-char			*get_option(char *commande, int *i)
+char			*get_option(char *cmd, int *i)
 {
-	int	j;
+	int		j;
 	char	*option;
-	int	ind;
+	int		ind;
 	
 	ind = 0;
 	option = NULL;
-	while (commande[ind] == ' ' && commande[ind] != '\0')
+	while ((cmd[ind] == ' ' || cmd[ind] == '"') && cmd[ind])
 	{
 		ind++;
-		if (commande[ind] == '-')
+		if (cmd[ind] == '-')
 		{
 			j = ind;
 			ind++;
-			while (ft_isalnum(commande[ind]) || commande[ind] == '-' || commande[ind] == '=')
-			{
+			while (ft_isalnum(cmd[ind]) || cmd[ind] == '-' || cmd[ind] == '=')
 				ind = ind + 1;
-			}
 			if (!option)
-				option = ft_strsub(commande, j, ind - j);
+				option = ft_strsub(cmd, j, ind - j);
 			else
-			{
-				option = secure_cat(secure_cat(option, ":", 0), ft_strsub(commande, j, ind -j), 1);
-			}
+				option = secure_cat(
+					secure_cat(option, ":", 0), ft_strsub(cmd, j, ind - j), 1);
 		}
 	}
 	*i = ind;
@@ -76,27 +73,23 @@ void			print_detail_cmd(t_cmd *cmd)
 	int	i;
 
 	i = 0;
+	if (!cmd)
+		return ;
 	ft_putstr("programme : ");
 	if (cmd->prog)
 		ft_putstr(cmd->prog);
-	ft_putstr("\nparam : ");
 	if (cmd->param)
 	{
+		ft_putstr("\nparam : ");
 		while (cmd->param[i])
-		{
-			ft_putendl(cmd->param[i]);
-			i++;
-		}
+			ft_putendl(cmd->param[i++]);
 		i = 0;
 	}
-	ft_putstr("\noption : ");
 	if (cmd->option)
 	{
+		ft_putstr("\noption : ");
 		while (cmd->option[i])
-		{
-			ft_putendl(cmd->option[i]);
-			i++;
-		}
+			ft_putendl(cmd->option[i++]);
 	}
 	else
 		ft_putchar('\n');

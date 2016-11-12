@@ -18,17 +18,20 @@ int		ft_strlensquare(char **env)
 	int	i;
 
 	i = 0;
-	while (env[i])
+	if (env)
 	{
-		i++;	
+		while (env[i])
+		{
+			i++;	
+		}
+		i++;
 	}
-	i++;
 	return (i);
 }
 
 static t_msh	*cpy_env(t_msh *msh)
 {
-	t_msh	*tmp;
+	t_msh		*tmp;
 	int		cnt;
 	int		i;
 
@@ -37,15 +40,25 @@ static t_msh	*cpy_env(t_msh *msh)
 	tmp = (t_msh*)ft_memalloc(sizeof(t_msh));
 	if(!tmp)
 		return (NULL);
-	tmp->env = (char**)ft_memalloc(sizeof(char*) * (cnt));
-	while (msh->env[i])
+	tmp->env = (char**)ft_memalloc(sizeof(char*) * (cnt + 1));
+	if (msh->env)
 	{
-		tmp->env[i] = ft_strdup(msh->env[i]);
-		i++;
+		ft_putendl("dupping env");
+		while (msh->env[i])
+		{
+			tmp->env[i] = ft_strdup(msh->env[i]);
+			i++;
+		}
+		ft_putendl("env dup");
+	}
+	else
+	{
+		ft_putendl("no env, pls gamu");
 	}
 	i = 0;
 	cnt = ft_strlensquare(msh->path);
-	tmp->path = (char**)ft_memalloc(sizeof(char*) * (cnt));
+	tmp->path = (char**)ft_memalloc(sizeof(char*) * (cnt + 1));
+	if (msh->path)
 	while (msh->path[i])
 	{
 		tmp->path[i] = ft_strdup(msh->path[i]);
@@ -63,8 +76,10 @@ void	run_env(t_cmd **cmd, t_msh **msh)
 
 	opt = 0;
 	process = 0;
+	if (!msh)
+		return ;
 	if (!*msh)
-		return;	
+		return ;	
 	tmp = cpy_env(*msh);
 /*
 	while (msh->path[i])
@@ -94,7 +109,7 @@ void	run_env(t_cmd **cmd, t_msh **msh)
 			else if (isbegin("-i", (*cmd)->option[i]))
 			{
 				if (tmp)
-				free_msh(&tmp);
+					free_msh(&tmp);
 				tmp = NULL;
 			}
 			else if (isbegin("-v", (*cmd)->option[i]) || isbegin("--version", (*cmd)->option[i]))
@@ -162,15 +177,48 @@ void	run_env(t_cmd **cmd, t_msh **msh)
 		}
 //	========================================================================== //	
 	}
-	else if (tmp)
+	else
 	{
-			ft_putendl("debug");
-			if (!(*cmd)->param)
-				print_msh(tmp, opt);	
-	}
-	if (tmp)
-		free_msh(&tmp);
+		if (!tmp)
+		{
+			tmp = (t_msh*)ft_memalloc(sizeof(t_msh));
+			tmp->env = (char**)ft_memalloc(sizeof(char*));
+			tmp->env = NULL;
+			tmp->path = (char**)ft_memalloc(sizeof(char*));
+			tmp->path = NULL;
+		}
+		if ((*cmd)->param)
+		{
+			i = 0;
+			while ((*cmd)->param[i] && ft_strchr((*cmd)->param[i], '='))
+			{
+				char	*value = ft_strdup(ft_strchr((*cmd)->param[i], '='));
+				char	*mpath = ft_strsub((*cmd)->param[i], 0, ft_strlen((*cmd)->param[i]) - ft_strlen(value) + 1);
+				ft_putendl(value);
+				set_env(mpath, &value[1], &tmp);
+				i++;
+				if (value)
+					free(value);
+				if (mpath)
+					free(mpath);
+			}
+			if ((*cmd)->param[i])
+			{
+				*cmd = mod_cmd(cmd, i);	
+				print_detail_cmd(*cmd);
+				ft_putendl("CMD mod reussit");
+				exec_cmd(cmd, msh, &tmp);
+				free_msh(&tmp);
+				return ;
+			}
+			else
+				print_msh(tmp, opt);
 
+		}
+		else if (!(*cmd)->param)
+			print_msh(tmp, opt);
+		free_msh(&tmp);
+	}
 }
 
 /*
@@ -244,8 +292,7 @@ t_cmd	*mod_cmd(t_cmd	**cmd, int i)
 			free_cmd(*cmd);
 		return (ncmd);
 	}
-
-	ncmd->option = (char **)ft_memalloc(sizeof(char*) * (j - i));
+	ncmd->option = (char **)ft_memalloc(sizeof(char*) * (j - i + 1));
 	while (j - i > 0)
 	{
 //	=============================================explore here=================
@@ -259,7 +306,7 @@ t_cmd	*mod_cmd(t_cmd	**cmd, int i)
 		{
 			j++;
 		}
-	ncmd->param = (char **)ft_memalloc(sizeof(char*) * (j - i));
+	ncmd->param = (char **)ft_memalloc(sizeof(char*) * (j - i + 1));
 	while (j - i > 0)
 	{
 		ncmd->param[k] = ft_strdup((*cmd)->param[i]);
@@ -344,10 +391,10 @@ void	run_setenv(t_cmd *cmd, t_msh **msh)
 					set_env(splitenv[0], splitenv[1], msh);
 				while (splitenv[i])
 				{
-						free(splitenv[i]);
-						i++;
+					free(splitenv[i]);
+					i++;
 				}
-					free(splitenv);
+				free(splitenv);
 			}
 			else
 			{

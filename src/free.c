@@ -57,8 +57,13 @@ void	free_cmd(t_cmd *cmd)
 
 void	free_msh(t_msh **tmp)
 {
-	int	i;
-	t_msh *msh = *tmp;
+	int		i;
+	t_msh	*msh;
+
+	if (tmp)
+		msh = *tmp;
+	else
+		return ;
 	i = 0;
 	if (msh)
 	{

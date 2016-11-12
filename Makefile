@@ -5,24 +5,30 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abureau <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/10/31 18:01:49 by abureau           #+#    #+#              #
-#    Updated: 2016/10/31 18:01:49 by abureau          ###   ########.fr        #
+#    Created: 2016/11/10 18:10:11 by abureau           #+#    #+#              #
+#    Updated: 2016/11/10 18:10:11 by abureau          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = minish
 
-SRC = ./src/env.c \
+SRC = ./src/echo_p.c \
+	./src/beg.c \
+	./src/env.c \
+	./src/echo.c \
 	./src/builtin.c \
 	./src/run_func.c \
 	./src/secure_cat.c \
 	./src/execute.c \
+	./src/get_param.c \
 	./src/f_getenv.c \
 	./src/main.c \
+	./src/init.c \
 	./src/free.c \
 	./src/get_next_line.c \
 	./src/exec.c \
-	./src/gnl_patch.c
+	./src/gnl_patch.c \
+	./src/atoibase.c
 
 CC = gcc
 

@@ -9,7 +9,6 @@ typedef	struct	s_speopt{
 
 typedef	struct	s_minish{
 	char	**env;
-	int	enb;
 	char	**path;
 }		t_msh;
 
@@ -21,6 +20,12 @@ typedef struct	s_command{
 	int	nbparam;
 }		t_cmd;
 
+# define ft_strlensquare FSS
+
+int		ft_issymb(const char c);
+t_cmd		*split_cmd(char *str);
+void		p_exit(const char *str, int value);
+int		ft_itoa_base(char *str, int base);
 int		ft_strlensquare(char **env);
 t_cmd		*mod_cmd(t_cmd	**cmd, int i);
 int		isbegin(const char *str, char *big);
@@ -41,7 +46,8 @@ void		run_env(t_cmd **cmd, t_msh **msh);
 void		run_unset(t_cmd *cmd, t_msh **msh);
 void		run_setenv(t_cmd *cmd, t_msh **msh);
 void		run_cd(t_cmd *cmd, t_msh *msh);
-void		run_pwd(t_cmd *cmd, t_msh *msh);
+void		run_echo(t_cmd *cmd, t_msh *msh);
+void		run_pwd(void);
 void		free_cmd(t_cmd *cmd);
 void		free_msh(t_msh **tmp);
 void		free_split(char ***split);
@@ -50,6 +56,14 @@ char		*get_option(char *commande, int *i);
 void		print_detail_cmd(t_cmd *cmd);
 char		*secure_cat(char *dest, char *str, int stqte);
 void		print_msh(t_msh *env, unsigned int opt);
+void		print_echo_v(void);
+void		print_echo_h(void);
 void		print_env_v(void);
 void		print_env_help(void);
+void		echoprintchar(const char *str);
+int		ft_atoi_base(char *str, int i);
+char		*g_p(char *str, int *j);
+char		*g_p_n(char *str, int *j);
+char		*get_param(char *commande, int *i);
+
 #endif

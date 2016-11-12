@@ -24,13 +24,14 @@ void	print_msh(t_msh *env, unsigned int opt)
 	int		i;
 
 	i = 0;
-	ft_putnbrnl(opt);
-	while (env->env[i])
-	{
-		if (opt & (1U << 0))
-			ft_putstr(env->env[i]);
-		else
-			ft_putendl(env->env[i]);
-		i++;
-	}
+	if (env)
+		if (env->env)
+			while (env->env[i])
+			{
+				if (opt & (1U << 0))
+					ft_putstr(env->env[i]);
+				else
+					ft_putendl(env->env[i]);
+				i++;
+			}
 }

@@ -4,11 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	run_pwd(t_cmd *cmd, t_msh *msh)
+void	run_pwd()
 {
 	char *re;
 
-	re  = ft_memalloc((sizeof(char) * 256));
+	re = ft_memalloc((sizeof(char) * 256));
 	re = getcwd(re, 256);
 	if (re)
 	{
