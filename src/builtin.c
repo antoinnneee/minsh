@@ -10,6 +10,8 @@ void	run_exit(t_cmd *cmd, t_msh *msh)
 		free_cmd(cmd);
 	if (msh)
 		free_msh(&msh);
+	f(NULL, 1);
+	fb(NULL, 1);
 	exit(0);
 }
 

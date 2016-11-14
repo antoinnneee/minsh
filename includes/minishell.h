@@ -19,9 +19,11 @@ typedef struct	s_command{
 	char	**option;
 	int	nbparam;
 }		t_cmd;
-
+typedef unsigned long long u64;
 # define ft_strlensquare FSS
 
+int		f(char **line, int i);
+int		fb(char ***line, int i);
 int		ft_issymb(const char c);
 t_cmd		*split_cmd(char *str);
 void		p_exit(const char *str, int value);
@@ -65,5 +67,8 @@ int		ft_atoi_base(char *str, int i);
 char		*g_p(char *str, int *j);
 char		*g_p_n(char *str, int *j);
 char		*get_param(char *commande, int *i);
+void		setup_catch(void);
+u64		set_add_msh(u64 ptr, int state);
+t_cmd		**set_add_cmd(t_cmd **ptr, int state);
 
 #endif

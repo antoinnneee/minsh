@@ -44,6 +44,7 @@ static void			mallocarray(char **buff, int *ret)
 	*buff = tmpbuff;
 	if (!tmpbuff)
 		*ret = -1;
+	f(buff, 0);
 }
 
 static char			*superjoin(char *tmpbuff, char *readbuff)
