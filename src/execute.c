@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 18:50:45 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/19 22:01:57 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/19 22:22:25 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,29 @@ static char			**organize(t_cmd *cmd, char *pathexe)
 	argv = (char**)ft_memalloc(sizeof(char*) * (nbparam + 1));
 	argv[i] = ft_strdup(pathexe);
 	i++;
+	j = 0;
+	ft_putendl("organize init");
 	while (i < nbparam)
 	{
-		if (cmd->option && cmd->option[j])
+		ft_putendl("loop_option");
+		if (cmd->option[j])
+		{
+			ft_putendl("start elem loop dup option");
 			argv[i] = ft_strdup(cmd->option[j]);
-		else
+			ft_putendl("ending elem loop dup option");
+		}
+			else
 		{
 			j = 0;
 			while (i < nbparam)
 			{
+				ft_putendl("dupe loop");
 				argv[i] = ft_strdup(cmd->param[j]);
 				ft_inctwovar(&i, &j);
 			}
+				ft_putendl("dupe loop end");
 		}
-		ft_inctwovar(&i, &j);
+		i++;
 		j++;
 	}
 	argv[nbparam] = NULL;
@@ -124,13 +133,17 @@ int				exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 	env = NULL;
 	if (!access(scat, X_OK))
 	{
+		ft_putendl("scat access");
 		lstat(scat, &st);
+		ft_putendl("organize will begin");
 		env = organize(cmd, scat);
-		pid = creat_process();	
+		ft_putendl("organize end");
+		pid = creat_process();
 		if (pid == 0)
 		{
 			if (nmsh && env)
 			{
+				ft_putendl("pidok");
 				execve(scat, env, (*nmsh)->env);
 			}
 			else if (env)
@@ -147,6 +160,7 @@ int				exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 			return (2);
 		return (1);
 	}
+	ft_putendl("scat no access");
 	return (0);
 }
 
@@ -168,9 +182,14 @@ void			execute(char *name, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 			scat = ft_strcat(scat, (*msh)->path[i]);
 			scat = ft_strcat(scat, "/");
 			scat = ft_strcat(scat, name);
+			ft_putendl(scat);
 			state = exe_search(scat, cmd, msh, nmsh);
 			if (scat)
+			{
+				ft_putendl("scat free ?");
 				ft_strdel(&scat);
+					ft_putendl("scat is free");
+			}
 			i++;
 		}
 	}
