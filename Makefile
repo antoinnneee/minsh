@@ -5,30 +5,38 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abureau <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/10 18:10:11 by abureau           #+#    #+#              #
-#    Updated: 2016/11/10 18:10:11 by abureau          ###   ########.fr        #
+#    Created: 2016/11/19 20:25:31 by abureau           #+#    #+#              #
+#    Updated: 2016/11/19 20:25:31 by abureau          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-NAME = minish
+NAME = minsh
 
-SRC = ./src/echo_p.c \
+SRC = ./src/atoibase.c \
 	./src/beg.c \
-	./src/env.c \
-	./src/echo.c \
 	./src/builtin.c \
+	./src/echo.c \
+	./src/echo_p.c \
+	./src/env.c \
+	./src/env_unset.c \
+	./src/exec.c \
+	./src/execute.c \
+	./src/f_getenv.c \
+	./src/free.c \
+	./src/get_len.c \
+	./src/get_next_line.c \
+	./src/get_param.c \
+	./src/gnl_patch.c \
+	./src/init.c \
+	./src/issymb.c \
+	./src/main.c \
+	./src/mod_cmd.c \
+	./src/new_msh.c \
+	./src/run_echo.c \
+	./src/run_env.c \
 	./src/run_func.c \
 	./src/secure_cat.c \
-	./src/execute.c \
-	./src/get_param.c \
-	./src/f_getenv.c \
-	./src/main.c \
-	./src/init.c \
-	./src/free.c \
-	./src/get_next_line.c \
-	./src/exec.c \
-	./src/gnl_patch.c \
-	./src/atoibase.c
+	./src/setenv_core.c
 
 CC = gcc
 

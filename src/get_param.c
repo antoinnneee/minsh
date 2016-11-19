@@ -93,7 +93,7 @@ char			*get_param(char *commande, int *i)
 	{
 		if (commande[ind] == '"')
 			get_o(&option, commande, &ind);
-		else if (ft_isalnum(commande[ind]))
+		else if (issymb(commande[ind]))
 		{
 			if (!option)
 				option = g_p_n(commande, &ind);

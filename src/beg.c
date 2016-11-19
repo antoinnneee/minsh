@@ -1,4 +1,16 @@
-# include "../libft/includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   beg.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/14 17:04:07 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/14 17:04:28 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../libft/includes/libft.h"
 
 int	isbegin(const char *str, char *big)
 {
@@ -20,7 +32,6 @@ int	isbegin(const char *str, char *big)
 
 int	beginby(const char *str, char *env)
 {
-
 	while (*str == *env)
 	{
 		env++;

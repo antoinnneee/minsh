@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/19 20:33:22 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/19 20:33:24 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/includes/libft.h"
 #include "../includes/minishell.h"
 
@@ -16,7 +28,8 @@ void	print_env_help(void)
 	ft_putstr("-u, --unset=NAME\t\tremove variable from environment\n");
 	ft_putstr("-h, --help\t\t\tdisplay this help and exit\n");
 	ft_putstr("-v, --version\t\t\tOutput information and exit\n\n");
-	ft_putstr("a mere - implies -i, if no COMMAND, print the resulting environment.\n");
+	ft_putstr("a mere - implies -i, if no COMMAND, print the resulting");
+	ft_putstr("environment.\n");
 }
 
 void	print_msh(t_msh *env, unsigned int opt)

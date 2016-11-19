@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/19 20:41:42 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/19 20:42:53 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-static int	exec_builtin(t_cmd **cmd, t_msh **msh)
+static int		exec_builtin(t_cmd **cmd, t_msh **msh)
 {
 	if (!ft_strcmp((*cmd)->prog, "echo"))
 		run_echo(*cmd, *msh);
@@ -22,7 +34,7 @@ static int	exec_builtin(t_cmd **cmd, t_msh **msh)
 	return (1);
 }
 
-void		exec_cmd(t_cmd **cmd, t_msh **msh, t_msh	**nmsh)
+void			exec_cmd(t_cmd **cmd, t_msh **msh, t_msh **nmsh)
 {
 	if (!nmsh)
 	{
@@ -45,7 +57,7 @@ char			*get_option(char *cmd, int *i)
 	int		j;
 	char	*option;
 	int		ind;
-	
+
 	ind = 0;
 	option = NULL;
 	while ((cmd[ind] == ' ' || cmd[ind] == '"') && cmd[ind])
@@ -64,7 +76,7 @@ char			*get_option(char *cmd, int *i)
 					secure_cat(option, ":", 0), ft_strsub(cmd, j, ind - j), 1);
 		}
 	}
-	*i = ind;
+	*i = ind + 1;
 	return (option);
 }
 
@@ -94,5 +106,3 @@ void			print_detail_cmd(t_cmd *cmd)
 	else
 		ft_putchar('\n');
 }
-
-

@@ -1,7 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   atoibase.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/14 17:02:44 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/14 17:03:47 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static int	ft_base(char c, int base);
+static int	ft_base(char c, int base)
+{
+	if (base <= 10)
+		return (c >= '0' && c <= '9');
+	else
+		return ((c >= '0' && c <= '9') || (c >= 'A' && c <= ('A' + base - 10)));
+}
 
-int	ft_atoi_base(char *str, int base)
+int			ft_atoi_base(char *str, int base)
 {
 	int	value;
 	int	sign;
@@ -24,12 +41,4 @@ int	ft_atoi_base(char *str, int base)
 		str++;
 	}
 	return (value * sign);
-}
-
-static int	ft_base(char c, int base)
-{
-	if (base <= 10)
-		return (c >= '0' && c <= '9');
-	else
-		return ((c >= '0' && c <= '9') || (c >= 'A' && c <= ('A' + base - 10)));
 }

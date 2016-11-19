@@ -21,15 +21,16 @@ char		**get_env(char *name, t_msh *msh)
 	int	i;
 
 	i = 0;
-	while (msh->env[i])
-	{
-		if (!ft_strncmp(msh->env[i], name, ft_strlen(name)))
+	if (msh->env)
+		while (msh->env[i])
 		{
-			return (&msh->env[i]);
+			if (!ft_strncmp(msh->env[i], name, ft_strlen(name)))
+			{
+				return (&msh->env[i]);
+			}
+			i++;
 		}
-		i++;
-	}
-	return(NULL);	
+	return(NULL);
 }
 
 void		unset_env(char *name, t_msh **msh)
@@ -39,7 +40,7 @@ void		unset_env(char *name, t_msh **msh)
 	char	**tmpenv;
 
 	ft_inittwovar(&i, &j);
-	tmpenv = (char**)ft_memalloc(sizeof(char*) * (ft_strlensquare((*msh)->env)));
+	tmpenv = (char**)ft_memalloc(sizeof(char*) * (ft_strlensquare((*msh)->env, NULL)));
 	while ((*msh)->env[i])
 	{
 		if(beginby(name, (*msh)->env[i]))
@@ -80,6 +81,7 @@ void		add_env(char *name, char *value, t_msh **msh)
 
 	i = 0;
 	tmpenv = (char**)ft_memalloc(sizeof(char*) * (cnt_env(*msh) + 2));
+	if ((*msh)->env)
 	while ((*msh)->env[i])
 	{
 		tmpenv[i] = ft_strdup((*msh)->env[i]);
@@ -90,12 +92,15 @@ void		add_env(char *name, char *value, t_msh **msh)
 	tmpenv[i] = ft_strcat(tmpenv[i], value);
 	tmpenv[i + 1] = NULL;
 	i = 0;
-	while ((*msh)->env[i])
+	if ((*msh)->env)
 	{
-		free((*msh)->env[i]);
-		i++;
-	}
+		while ((*msh)->env[i])
+		{
+			free((*msh)->env[i]);
+			i++;
+		}
 	free((*msh)->env);
+	}
 	(*msh)->env = tmpenv;
 }
 
@@ -106,7 +111,6 @@ void		set_env(char *name, char *value, t_msh **msh)
 	old = get_env(name, *msh);
 	if (old)
 	{
-		ft_putendl(*old);
 		free(*old);
 		*old = (char*)ft_memalloc((sizeof(char)
 					* (ft_strlen(name) + ft_strlen(value) + 1)));
@@ -114,5 +118,7 @@ void		set_env(char *name, char *value, t_msh **msh)
 		*old = ft_strcat(*old, value);
 	}
 	else
+	{
 		add_env(name, value, msh);
+	}
 }

@@ -32,14 +32,12 @@ t_msh	*copy_env(void)
 	int	j;
 	t_msh	*msh;
 
-	i = ft_strlensquare(environ);
-	j = 0;
-	if (ft_strlensquare(environ) == 0)
+	i = ft_strlensquare(environ, &j);
+	if (ft_strlensquare(environ, NULL) == 0)
 		p_exit("No env, exitting ...", 0);
 	msh = (t_msh*)ft_memalloc(sizeof(t_msh));
 	ft_bzero(msh, sizeof(t_msh));
-	msh->env = (char**)ft_memalloc(sizeof(char*) * (FSS(environ) + 1));
-	i = 0;
+	msh->env = (char**)ft_memalloc(sizeof(char*) * (FSS(environ, &i) + 1));
 	while (environ[i])
 	{
 		msh->env[i] = (char*)ft_memalloc(sizeof(char) * (ft_strlen(environ[i]) + 1));

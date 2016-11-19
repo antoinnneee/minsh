@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/19 18:50:45 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/19 22:01:57 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 #include <sys/types.h>
@@ -7,7 +19,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-static pid_t creat_process()
+static pid_t		creat_process(void)
 {
 	pid_t pid;
 
@@ -18,11 +30,11 @@ static pid_t creat_process()
 	return (pid);
 }
 
-static int	cnt_p(t_cmd *cmd)
+static int			cnt_p(t_cmd *cmd)
 {
 	int	i;
 	int	cnt;
-	
+
 	i = 0;
 	cnt = 0;
 	if (cmd->option)
@@ -44,16 +56,28 @@ static int	cnt_p(t_cmd *cmd)
 	cnt = cnt + i;
 	return (cnt);
 }
-
-static char	**organize(t_cmd *cmd, char *pathexe)
+/*
+static char			**inorga(int *ij, char *pathexe, int *nbparam, t_cmd *cmd)
 {
 	char	**argv;
-	int	nbparam;
-	int	i;
-	int	j;
 
-	i = 0;
-	j = 0;
+	ij[0] = 0;
+	ij[1] = 0;
+	*nbparam = cnt_p(cmd) + 1;
+	argv = (char**)ft_memalloc(sizeof(char*) * (*nbparam + 1));
+	argv[ij[0]] = ft_strdup(pathexe);
+	ij[0] = ij[0] + 1;
+	return (argv);
+}
+*/
+static char			**organize(t_cmd *cmd, char *pathexe)
+{
+	char	**argv;
+	int		nbparam;
+	int		i;
+	int		j;
+
+	ft_inittwovar(&i, &j);
 	nbparam = cnt_p(cmd) + 1;
 	argv = (char**)ft_memalloc(sizeof(char*) * (nbparam + 1));
 	argv[i] = ft_strdup(pathexe);
@@ -68,18 +92,17 @@ static char	**organize(t_cmd *cmd, char *pathexe)
 			while (i < nbparam)
 			{
 				argv[i] = ft_strdup(cmd->param[j]);
-				i++;
-				j++;
+				ft_inctwovar(&i, &j);
 			}
-		}	
-		i++;
+		}
+		ft_inctwovar(&i, &j);
 		j++;
 	}
 	argv[nbparam] = NULL;
 	return (argv);
 }
 
-void	printenv(char **env)
+void			printenv(char **env)
 {
 	int i;
 
@@ -92,7 +115,7 @@ void	printenv(char **env)
 	}
 }
 
-int	exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
+int				exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 {
 	char		**env;
 	struct stat	st;
@@ -103,7 +126,6 @@ int	exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 	{
 		lstat(scat, &st);
 		env = organize(cmd, scat);
-		printenv(env);
 		pid = creat_process();	
 		if (pid == 0)
 		{
@@ -128,19 +150,17 @@ int	exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 	return (0);
 }
 
-
-void	execute(char *name, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
+void			execute(char *name, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 {
 	int		i;
 	int		state;
 	char	*scat;
 
 	state = 0;
-	ft_putendl("state = 0");
 	i = 0;
 	if (cmd->prog[0] == '.')
 		state = exe_search(name, cmd, msh, nmsh);
-	else
+	else if ((*msh)->path)
 	{
 		while ((*msh)->path[i] && state == 0)
 		{
@@ -178,6 +198,4 @@ void	execute(char *name, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 		ft_putendl(": is a Directory");
 	}
 	i = 0;
-
 }
-
