@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 11:47:18 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 14:29:48 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 17:11:22 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int			main(int argc, char **argv, char **environ)
 		{
 			if ((cmd = parse_command(*buf)))
 			{
+				print_detail_cmd(cmd);
 				exec_cmd(&cmd, &msh, NULL);
 			}
 		}

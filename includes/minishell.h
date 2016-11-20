@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 13:34:53 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 14:14:06 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 17:09:57 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef unsigned long long t_u64;
 void			printcd(char *str);
 void			p_exec_error(char *name, char *prog, int state);
 pid_t			creat_process();
-void			fork_process(char *scat, t_msh **msh, t_msh **nmsh, char **env);
+void			fork_process(char *scat, t_msh **msh, char **env);
 void			free_path();
 t_u64			set_add_path(t_u64 ptr, int state);
 void			core_setenv(t_cmd **cmd, t_msh ***pmsh, int i);
@@ -65,7 +65,7 @@ t_msh			*copy_env(char **environ);
 char			**copy_path(char **env);
 char			*f_getenv(const char *str, char **env);
 void			exec_cmd(t_cmd **cmd, t_msh **msh, t_msh **nmsh);
-void			execute(char *name, t_cmd *cmd, t_msh **msh, t_msh **nmsh);
+void			execute(char *name, t_cmd *cmd, t_msh **msh);
 void			run_exit(t_cmd *cmd, t_msh *msh);
 void			run_env(t_cmd **cmd, t_msh **msh);
 void			run_unset(t_cmd *cmd, t_msh **msh);

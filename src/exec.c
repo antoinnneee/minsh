@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 20:41:42 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 13:01:25 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 17:25:02 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void			exec_cmd(t_cmd **cmd, t_msh **msh, t_msh **nmsh)
 	{
 		if (!exec_builtin(cmd, msh))
 		{
-			execute((*cmd)->prog, *cmd, msh, NULL);
+			execute((*cmd)->prog, *cmd, msh);
 		}
 	}
 	else
 	{
 		if (!exec_builtin(cmd, nmsh))
 		{
-			execute((*cmd)->prog, *cmd, msh, nmsh);
+			execute((*cmd)->prog, *cmd, nmsh);
 		}
 	}
 }

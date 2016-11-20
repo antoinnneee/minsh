@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 18:50:45 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 13:12:33 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 17:28:02 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static char		**organize(t_cmd *cmd, char *pathexe)
 	return (argv);
 }
 
-int				exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
+int				exe_search(char *scat, t_cmd *cmd, t_msh **msh)
 {
 	char		**env;
 	struct stat	st;
@@ -101,7 +101,7 @@ int				exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 		pid = creat_process();
 		if (pid == 0)
 		{
-			fork_process(scat, msh, nmsh, env);
+			fork_process(scat, msh, env);
 		}
 		if (pid > 0)
 			waitpid(0, NULL, 0);
@@ -114,7 +114,7 @@ int				exe_search(char *scat, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 	return (0);
 }
 
-void			execute(char *name, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
+void			execute(char *name, t_cmd *cmd, t_msh **msh)
 {
 	int		i;
 	int		state;
@@ -125,7 +125,7 @@ void			execute(char *name, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 	state = 0;
 	i = -1;
 	if (cmd->prog[0] == '.')
-		state = exe_search(name, cmd, msh, nmsh);
+		state = exe_search(name, cmd, msh);
 	else if (path)
 	{
 		while (path[++i] && state == 0)
@@ -135,10 +135,12 @@ void			execute(char *name, t_cmd *cmd, t_msh **msh, t_msh **nmsh)
 			scat = ft_strcat(scat, path[i]);
 			scat = ft_strcat(scat, "/");
 			scat = ft_strcat(scat, name);
-			state = exe_search(scat, cmd, msh, nmsh);
+		 	state = exe_search(scat, cmd, msh);
 			if (scat)
 				ft_strdel(&scat);
 		}
 	}
+	if (state == 0)
+			state = exe_search(name, cmd, msh);
 	p_exec_error(name, cmd->prog, state);
 }
