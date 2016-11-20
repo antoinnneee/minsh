@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:04:07 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/14 17:04:28 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 15:22:23 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	isbegin(const char *str, char *big)
 
 int	beginby(const char *str, char *env)
 {
-	while (*str == *env)
+	while (*str && *env && *str == *env)
 	{
 		env++;
 		str++;

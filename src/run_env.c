@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 19:54:16 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 12:17:27 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 15:12:04 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,6 @@ void				run_env(t_cmd **cmd, t_msh **msh)
 		if (tmp)
 			free_msh(&tmp);
 	}
+	if (msh)
+		free_msh(msh);
 }

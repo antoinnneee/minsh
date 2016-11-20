@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:08:52 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 13:56:46 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 16:32:32 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ void		run_cd(t_cmd *cmd, t_msh *msh)
 		chdir(ft_strchr(*get_env("HOME=", msh), '=') + 1);
 	pwd = get_env("PWD=", msh);
 	tmp = getcwd(tmp, 256);
-	free(*pwd);
-	*pwd = ft_memalloc((sizeof(char) * 256));
-	*pwd = ft_strcpy(*pwd, "PWD=");
-	*pwd = ft_strcat(*pwd, tmp);
+//	if (pwd)
+//		free(*pwd);
+	set_env("PWD=", tmp, &msh);
+//	*pwd = ft_memalloc((sizeof(char) * 256));
+//	*pwd = ft_strcpy(*pwd, "PWD=");
+//	*pwd = ft_strcat(*pwd, tmp);
 	free(tmp);
 }
 
