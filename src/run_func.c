@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:08:52 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 16:50:35 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 17:51:45 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ static void	init_cd(char **tmp, char ***old, t_msh **msh)
 	*tmp = (char*)ft_memalloc((sizeof(char) * 256));
 	*tmp = getcwd(*tmp, 256);
 	*old = get_env("OLDPWD=", *msh);
+	ft_putendl(**old);
 	free(**old);
 	**old = ft_memalloc((sizeof(char) * 256));
 	**old = ft_strcpy(**old, "OLDPWD=");
 	**old = ft_strcat(**old, *tmp);
+	ft_putendl(**old);
 }
 
 void		run_cd(t_cmd *cmd, t_msh *msh)
@@ -44,6 +46,9 @@ void		run_cd(t_cmd *cmd, t_msh *msh)
 		{
 			printcd(cmd->param[0]);
 		}
+	}
+	else if (cmd->option && !(ft_strcmp(cmd->option[0], "-")) )
+	{
 	}
 	else
 		chdir(ft_strchr(*get_env("HOME=", msh), '=') + 1);
