@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 11:47:18 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 14:03:10 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 14:29:48 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int			main(int argc, char **argv, char **environ)
 
 	clear_term();
 	msh = copy_env(environ);
-	set_add_msh((u64)msh, 1);
-	set_add_path((u64)copy_path(msh->env), 1);
+	set_add_msh((t_u64)msh, 1);
+	set_add_path((t_u64)copy_path(msh->env), 1);
 	buf = (char**)ft_memalloc(sizeof(char*));
 	setup_catch();
 	fb(&buf, 0);

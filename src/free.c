@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 12:27:11 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 12:32:43 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 14:25:16 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,6 @@ void	free_path(void)
 		}
 		free(path);
 		path = NULL;
-		set_add_path((u64)NULL, 0);
+		set_add_path((t_u64)NULL, 0);
 	}
 }
