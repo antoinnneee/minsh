@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 12:27:11 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 17:36:58 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 19:25:43 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	free_cmd(t_cmd *cmd)
 	int	i;
 
 	i = 0;
-	ft_putendl("free_cmd");
 	if (cmd)
 	{
 		if (cmd->prog)
@@ -59,7 +58,6 @@ void	free_cmd(t_cmd *cmd)
 		}
 		free(cmd);
 	}
-	ft_putendl("free_cmd end");
 }
 
 void	free_msh(t_msh **tmp)

@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 13:34:53 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 17:09:57 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 19:42:05 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct	s_command{
 
 typedef unsigned long long t_u64;
 
+void			init_pwd(t_msh **msh);
+void			inimain(t_msh **msh);
 void			printcd(char *str);
 void			p_exec_error(char *name, char *prog, int state);
 pid_t			creat_process();

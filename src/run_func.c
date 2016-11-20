@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:08:52 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 17:51:45 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 19:37:46 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void	init_cd(char **tmp, char ***old, t_msh **msh)
+static void	init_cd(char **tmp, char ***old, t_msh **msh, int *state)
 {
+	char	**str;
+
+	str = get_env("HOME=", *msh);
+	*state = 0;
+	if (str)
+		*state = 1;
 	*tmp = (char*)ft_memalloc((sizeof(char) * 256));
 	*tmp = getcwd(*tmp, 256);
 	*old = get_env("OLDPWD=", *msh);
-	ft_putendl(**old);
+	set_env("PWD=", ft_strchr(**old, '=') + 1, msh);
 	free(**old);
 	**old = ft_memalloc((sizeof(char) * 256));
 	**old = ft_strcpy(**old, "OLDPWD=");
 	**old = ft_strcat(**old, *tmp);
-	ft_putendl(**old);
 }
 
 void		run_cd(t_cmd *cmd, t_msh *msh)
 {
-	char	**pwd;
 	char	**old;
 	char	*tmp;
+	int		state;
 
 	if (!msh->env)
 		return ;
-	init_cd(&tmp, &old, &msh);
-	if (cmd->param && cmd->param[0][0] == '~')
+	init_cd(&tmp, &old, &msh, &state);
+	if (cmd->param && cmd->param[0][0] == '~' && state)
 		chdir(ft_strchr(*get_env("HOME=", msh), '=') + 1);
 	else if (cmd->param)
 	{
@@ -49,17 +54,15 @@ void		run_cd(t_cmd *cmd, t_msh *msh)
 	}
 	else if (cmd->option && !(ft_strcmp(cmd->option[0], "-")) )
 	{
+		chdir(ft_strchr(*get_env("PWD=", msh), '=') + 1);
+		ft_putendl(ft_strchr(*get_env("PWD=", msh), '=' ) + 1);
 	}
-	else
+	else if (state)
 		chdir(ft_strchr(*get_env("HOME=", msh), '=') + 1);
-//	pwd = get_env("PWD=", msh);
+	else
+		ft_putendl("env var manquante, use setenv HOME=[path]");
 	tmp = getcwd(tmp, 256);
-//	if (pwd)
-//		free(*pwd);
 	set_env("PWD=", tmp, &msh);
-//	*pwd = ft_memalloc((sizeof(char) * 256));
-//	*pwd = ft_strcpy(*pwd, "PWD=");
-//	*pwd = ft_strcat(*pwd, tmp);
 	free(tmp);
 }
 
@@ -87,9 +90,9 @@ void		run_pwd(void)
 	char *re;
 
 	re = ft_memalloc((sizeof(char) * 256));
-	re = getcwd(re, 256);
 	if (re)
 	{
+		re = getcwd(re, 256);
 		ft_putendl(re);
 		free(re);
 	}
