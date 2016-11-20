@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 20:41:42 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/19 22:06:35 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 13:01:25 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,31 +78,4 @@ char			*get_option(char *cmd, int *i)
 	}
 	*i = ind + 1;
 	return (option);
-}
-
-void			print_detail_cmd(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	if (!cmd)
-		return ;
-	ft_putstr("programme : ");
-	if (cmd->prog)
-		ft_putstr(cmd->prog);
-	if (cmd->param)
-	{
-		ft_putstr("\nparam : ");
-		while (cmd->param[i])
-			ft_putendl(cmd->param[i++]);
-		i = 0;
-	}
-	if (cmd->option)
-	{
-		ft_putstr("\noption : ");
-		while (cmd->option[i])
-			ft_putendl(cmd->option[i++]);
-	}
-	else
-		ft_putchar('\n');
 }

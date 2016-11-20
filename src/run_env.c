@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 19:54:16 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/19 20:36:41 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 12:17:27 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@ static t_msh		*cpy_env(t_msh *msh)
 		while (msh->env[i])
 		{
 			tmp->env[i] = ft_strdup(msh->env[i]);
-			i++;
-		}
-	cnt = ft_strlensquare(msh->path, &i);
-	tmp->path = (char**)ft_memalloc(sizeof(char*) * (cnt + 1));
-	if (msh->path)
-		while (msh->path[i])
-		{
-			tmp->path[i] = ft_strdup(msh->path[i]);
 			i++;
 		}
 	return (tmp);

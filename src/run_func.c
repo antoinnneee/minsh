@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:08:52 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/19 18:56:08 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 13:56:46 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	init_cd(char **tmp, char ***old, t_msh **msh)
 	**old = ft_strcat(**old, *tmp);
 }
 
-void	run_cd(t_cmd *cmd, t_msh *msh)
+void		run_cd(t_cmd *cmd, t_msh *msh)
 {
 	char	**pwd;
 	char	**old;
@@ -42,9 +42,7 @@ void	run_cd(t_cmd *cmd, t_msh *msh)
 	{
 		if (chdir(cmd->param[0]) == -1)
 		{
-			ft_putstr("cd : ");
-			ft_putstr(cmd->param[0]);
-			ft_putstr(" : no such file or directory\n");
+			printcd(cmd->param[0]);
 		}
 	}
 	else
@@ -58,7 +56,7 @@ void	run_cd(t_cmd *cmd, t_msh *msh)
 	free(tmp);
 }
 
-void	run_unset(t_cmd *cmd, t_msh **msh)
+void		run_unset(t_cmd *cmd, t_msh **msh)
 {
 	int	i;
 
@@ -77,7 +75,7 @@ void	run_unset(t_cmd *cmd, t_msh **msh)
 	}
 }
 
-void	run_pwd(void)
+void		run_pwd(void)
 {
 	char *re;
 
@@ -90,12 +88,13 @@ void	run_pwd(void)
 	}
 }
 
-void	run_exit(t_cmd *cmd, t_msh *msh)
+void		run_exit(t_cmd *cmd, t_msh *msh)
 {
 	if (cmd)
 		free_cmd(cmd);
 	if (msh)
 		free_msh(&msh);
+	free_path(0, 0);
 	f(NULL, 1);
 	fb(NULL, 1);
 	exit(0);

@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abureau <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/19 20:25:31 by abureau           #+#    #+#              #
-#    Updated: 2016/11/19 20:25:31 by abureau          ###   ########.fr        #
+#    Created: 2016/11/20 13:50:08 by abureau           #+#    #+#              #
+#    Updated: 2016/11/20 13:50:08 by abureau          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -22,6 +22,7 @@ SRC = ./src/atoibase.c \
 	./src/exec.c \
 	./src/execute.c \
 	./src/f_getenv.c \
+	./src/fork.c \
 	./src/free.c \
 	./src/get_len.c \
 	./src/get_next_line.c \
@@ -32,11 +33,13 @@ SRC = ./src/atoibase.c \
 	./src/main.c \
 	./src/mod_cmd.c \
 	./src/new_msh.c \
+	./src/print.c \
 	./src/run_echo.c \
 	./src/run_env.c \
 	./src/run_func.c \
 	./src/secure_cat.c \
-	./src/setenv_core.c
+	./src/setenv_core.c \
+	./src/setter.c
 
 CC = gcc
 

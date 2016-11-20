@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_param.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/20 13:18:48 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/20 13:23:58 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/includes/libft.h"
 #include "../includes/minishell.h"
 
-char	*g_p(char *str, int *j)
+char			*g_p(char *str, int *j)
 {
 	int	i;
 	int	beg;
@@ -30,7 +42,7 @@ char	*g_p(char *str, int *j)
 	return (NULL);
 }
 
-char	*g_p_n(char *str, int *j)
+char			*g_p_n(char *str, int *j)
 {
 	int	i;
 	int	beg;
@@ -44,7 +56,7 @@ char	*g_p_n(char *str, int *j)
 		{
 			i++;
 		}
-		if (!str[i]  || str[i] == ' ' || str[i] == '"')
+		if (!str[i] || str[i] == ' ' || str[i] == '"')
 		{
 			*j = i;
 			return (ft_strsub(str, beg, i - beg));
@@ -56,54 +68,53 @@ char	*g_p_n(char *str, int *j)
 	return (NULL);
 }
 
-static void		get_o(char **option, char *commande, int *ind)
+static void		get_o(char **opt, char *commande, int *ind)
 {
-	if (!*option)
+	if (!*opt)
 	{
-		*option = g_p(commande, ind);
+		*opt = g_p(commande, ind);
 		while (commande[*ind] && commande[*ind] != ' ')
 		{
 			if (commande[*ind] == '"')
-				*option = secure_cat(*option, g_p(commande, ind), 1);
+				*opt = secure_cat(*opt, g_p(commande, ind), 1);
 			else
-				*option = secure_cat(*option, g_p_n(commande, ind), 1);
+				*opt = secure_cat(*opt, g_p_n(commande, ind), 1);
 		}
 	}
 	else
 	{
-		*option = secure_cat(secure_cat(*option, ":", 0), g_p(commande, ind), 1);
+		*opt = secure_cat(secure_cat(*opt, ":", 0), g_p(commande, ind), 1);
 		while (ft_isalnum(commande[*ind]))
 		{
 			if (commande[*ind] == '"')
-				*option = secure_cat(*option, g_p(commande, ind), 1);
+				*opt = secure_cat(*opt, g_p(commande, ind), 1);
 			else
-				*option = secure_cat(*option, g_p_n(commande, ind), 1);
+				*opt = secure_cat(*opt, g_p_n(commande, ind), 1);
 		}
 	}
 }
 
-char			*get_param(char *commande, int *i)
+char			*get_param(char *com, int *i)
 {
-	char	*option;
+	char	*opt;
 	int		ind;
-	
+
 	ind = 0;
-	option = NULL;
-	while (commande[ind])
+	opt = NULL;
+	while (com[ind])
 	{
-		if (commande[ind] == '"')
-			get_o(&option, commande, &ind);
-		else if (issymb(commande[ind]))
+		if (com[ind] == '"')
+			get_o(&opt, com, &ind);
+		else if (issymb(com[ind]))
 		{
-			if (!option)
-				option = g_p_n(commande, &ind);
+			if (!opt)
+				opt = g_p_n(com, &ind);
 			else
-				option = secure_cat(secure_cat(option, ":", 0), g_p_n(commande, &ind), 1);
+				opt = secure_cat(secure_cat(opt, ":", 0), g_p_n(com, &ind), 1);
 		}
-		if (commande[ind])
+		if (com[ind])
 			ind++;
 	}
 	*i = *i + ind;
-	return (option);
+	return (opt);
 }
-

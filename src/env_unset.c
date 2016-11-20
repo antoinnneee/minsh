@@ -6,12 +6,40 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 12:34:15 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/19 20:40:58 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 13:17:27 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
+
+void		unset_env(char *name, t_msh **msh)
+{
+	int		i;
+	int		j;
+	char	**tmpenv;
+
+	ft_inittwovar(&i, &j);
+	tmpenv = (char**)ft_memalloc(sizeof(char*) * (FSS((*msh)->env, NULL)));
+	while ((*msh)->env[i])
+	{
+		if (beginby(name, (*msh)->env[i]))
+			i++;
+		else
+		{
+			tmpenv[j] = ft_strdup((*msh)->env[i]);
+			ft_inctwovar(&i, &j);
+		}
+	}
+	i = 0;
+	while ((*msh)->env[i])
+	{
+		free((*msh)->env[i]);
+		i++;
+	}
+	free((*msh)->env);
+	(*msh)->env = tmpenv;
+}
 
 static void	p_env_unset(void)
 {

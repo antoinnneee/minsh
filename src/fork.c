@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   secure_cat.c                                       :+:      :+:    :+:   */
+/*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/20 13:58:06 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 13:58:21 by abureau          ###   ########.fr       */
+/*   Created: 2016/11/20 13:03:18 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/20 13:59:03 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
+#include <unistd.h>
+#include <sys/types.h>
 
-char	*secure_cat(char *dest, char *str, int state)
+void		fork_process(char *scat, t_msh **msh, t_msh **nmsh, char **env)
 {
-	char	*mstr;
-	int		llen;
+	if (nmsh && env)
+		execve(scat, env, (*nmsh)->env);
+	else if (env)
+		execve(scat, env, (*msh)->env);
+	exit(0);
+}
 
-	llen = ft_strlen(str) + ft_strlen(dest);
-	mstr = (char*)ft_memalloc(sizeof(char) * llen + 1);
-	ft_strcpy(mstr, dest);
-	ft_strcpy(&mstr[ft_strlen(mstr)], str);
-	if (dest)
-		ft_strdel(&dest);
-	if (state)
-		if (str)
-			ft_strdel(&str);
-	mstr[llen] = '\0';
-	if (!ft_strlen(mstr))
-		free(mstr);
-	return (mstr);
+pid_t		creat_process(void)
+{
+	pid_t pid;
+
+	while ((pid = fork()) == -1)
+	{
+		;
+	}
+	return (pid);
 }

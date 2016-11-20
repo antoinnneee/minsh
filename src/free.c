@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/20 12:27:11 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/20 12:32:43 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
@@ -34,20 +45,14 @@ void	free_cmd(t_cmd *cmd)
 		if (cmd->param)
 		{
 			while (cmd->param[i])
-			{
-				free(cmd->param[i]);
-				i++;
-			}
+				free(cmd->param[i++]);
 			i = 0;
 			free(cmd->param);
 		}
 		if (cmd->option)
 		{
 			while (cmd->option[i])
-			{
-				free(cmd->option[i]);
-				i++;
-			}
+				free(cmd->option[i++]);
 			i = 0;
 			free(cmd->option);
 		}
@@ -78,21 +83,10 @@ void	free_msh(t_msh **tmp)
 			free(msh->env);
 			msh->env = NULL;
 		}
-		i = 0;
-		if (msh->path)
-		{
-			while (msh->path[i])
-			{
-				free(msh->path[i]);
-				msh->path[i] = NULL;
-				i++;
-			}
-			free(msh->path);
-			msh->path = NULL;
-		}
 		free(msh);
 		msh = NULL;
 	}
+	*tmp = NULL;
 }
 
 void	free_split(char ***split)
@@ -112,4 +106,23 @@ void	free_split(char ***split)
 	}
 }
 
+void	free_path(void)
+{
+	char	**path;
+	int		i;
 
+	i = 0;
+	path = (char **)set_add_path(0, 0);
+	if (path)
+	{
+		while (path[i])
+		{
+			free(path[i]);
+			path[i] = NULL;
+			i++;
+		}
+		free(path);
+		path = NULL;
+		set_add_path((u64)NULL, 0);
+	}
+}

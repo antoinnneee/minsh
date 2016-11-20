@@ -1,17 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/20 13:25:06 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/20 14:08:32 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/includes/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include "../includes/minishell.h"
 
-extern char	**environ;
-
-char	**copy_path(char **env)
+char			**copy_path(char **env)
 {
 	char	**path;
 	char	*tmp;
 
 	tmp = NULL;
-	if((tmp = f_getenv("PATH", env)))
+	if ((tmp = f_getenv("PATH", env)))
 	{
 		path = ft_strsplit(&tmp[ft_strlen("PATH=")], ':');
 		return (path);
@@ -20,16 +30,16 @@ char	**copy_path(char **env)
 		return (NULL);
 }
 
-void	p_exit(const char *str, int value)
+void			p_exit(const char *str, int value)
 {
 	ft_putendl(str);
 	exit(value);
 }
 
-t_msh	*copy_env(void)
+t_msh			*copy_env(char **environ)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	t_msh	*msh;
 
 	i = ft_strlensquare(environ, &j);
@@ -40,7 +50,8 @@ t_msh	*copy_env(void)
 	msh->env = (char**)ft_memalloc(sizeof(char*) * (FSS(environ, &i) + 1));
 	while (environ[i])
 	{
-		msh->env[i] = (char*)ft_memalloc(sizeof(char) * (ft_strlen(environ[i]) + 1));
+		msh->env[i] = (char*)ft_memalloc(sizeof(char)
+												* (ft_strlen(environ[i]) + 1));
 		while (environ[i][j])
 		{
 			msh->env[i][j] = environ[i][j];
@@ -54,7 +65,7 @@ t_msh	*copy_env(void)
 	return (msh);
 }
 
-static void	core_split(t_cmd **cmd, char *commande, int i, int nb)
+static void		core_split(t_cmd **cmd, char *commande, int i, int nb)
 {
 	char	*tmp;
 
@@ -80,7 +91,7 @@ static void	core_split(t_cmd **cmd, char *commande, int i, int nb)
 		free(commande);
 }
 
-t_cmd	*split_cmd(char *commande)
+t_cmd			*split_cmd(char *commande)
 {
 	t_cmd	*cmd;
 	int		i;

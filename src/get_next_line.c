@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 15:40:53 by abureau           #+#    #+#             */
-/*   Updated: 2016/04/22 16:08:40 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 13:18:29 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static int			parsing(char *tmpbuff, char **line, int funcchose)
 		return (lenton);
 	else
 	{
-	*line = ft_strnew(lenton);
-	ft_strncpy(*line, tmpbuff, lenton);
-	ft_strcpy(tmpbuff, &tmpbuff[lenton + 1]);
-	return (1);
+		*line = ft_strnew(lenton);
+		ft_strncpy(*line, tmpbuff, lenton);
+		ft_strcpy(tmpbuff, &tmpbuff[lenton + 1]);
+		return (1);
 	}
 }
 

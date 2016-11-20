@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/20 11:47:18 by abureau           #+#    #+#             */
+/*   Updated: 2016/11/20 14:03:10 by abureau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <signal.h>
 #include "../libft/includes/libft.h"
@@ -5,12 +17,12 @@
 #include <stdlib.h>
 #include "../includes/minishell.h"
 
-void	clear_term(void)
+void		clear_term(void)
 {
 	ft_putstr("\033[2J\033[1;1Hminsh:> ");
 }
 
-t_cmd	*parse_command(char *tmp)
+t_cmd		*parse_command(char *tmp)
 {
 	t_cmd	*cmd;
 	char	*commande;
@@ -19,7 +31,6 @@ t_cmd	*parse_command(char *tmp)
 	free(tmp);
 	cmd = NULL;
 	if (commande)
-	{
 		if (!ft_strcmp(commande, ""))
 		{
 			free(commande);
@@ -35,21 +46,20 @@ t_cmd	*parse_command(char *tmp)
 			}
 			return (cmd);
 		}
-	}
 	else
 		return (NULL);
 }
 
-int main(void)
+int			main(int argc, char **argv, char **environ)
 {
 	char	**buf;
 	t_msh	*msh;
 	t_cmd	*cmd;
 
 	clear_term();
-	msh = copy_env();
+	msh = copy_env(environ);
 	set_add_msh((u64)msh, 1);
-	msh->path = copy_path(msh->env);
+	set_add_path((u64)copy_path(msh->env), 1);
 	buf = (char**)ft_memalloc(sizeof(char*));
 	setup_catch();
 	fb(&buf, 0);
@@ -59,13 +69,13 @@ int main(void)
 		{
 			if ((cmd = parse_command(*buf)))
 			{
-				print_detail_cmd(cmd);
 				exec_cmd(&cmd, &msh, NULL);
 			}
 		}
 		free_cmd(cmd);
 		ft_putstr("minsh:> ");
 	}
+	free_path();
 	return (0);
 }
 
@@ -78,28 +88,10 @@ static void	sig_handler(int signo)
 	}
 }
 
-u64	set_add_msh(u64 ptr, int state)
-{
-	static u64	data = 0;
-
-	if (data == 0)
-	{
-		data = ptr;
-	}
-	else if (state == 1)
-	{
-		data = ptr;
-	}
-	else
-		return (data);
-	return (0);
-}
-
-void setup_catch(void)
+void		setup_catch(void)
 {
 	if (signal(SIGINT, sig_handler) == SIG_ERR)
 	{
 		ft_putendl("SIGNAL CATCH ERROR");
 	}
-
 }
