@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:08:52 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 16:32:32 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/20 16:50:35 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void		run_cd(t_cmd *cmd, t_msh *msh)
 	}
 	else
 		chdir(ft_strchr(*get_env("HOME=", msh), '=') + 1);
-	pwd = get_env("PWD=", msh);
+//	pwd = get_env("PWD=", msh);
 	tmp = getcwd(tmp, 256);
 //	if (pwd)
 //		free(*pwd);
