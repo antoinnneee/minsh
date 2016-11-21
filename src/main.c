@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 11:47:18 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 19:45:40 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 13:07:49 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 
 void		clear_term(void)
 {
-	ft_putstr("\033[2J\033[1;1Hminsh:> ");
+	ft_putstr("\033[2J\033[1;1H\033[32mminsh:>\033[0m ");
 }
 
-t_cmd		*parse_command(char *tmp)
+t_cmd		*parse_command(char *tmp, t_msh *msh)
 {
 	t_cmd	*cmd;
 	char	*commande;
@@ -44,6 +44,7 @@ t_cmd		*parse_command(char *tmp)
 				ft_putstr(commande);
 				ft_putendl(": command not found");
 			}
+			check_env(&cmd, msh);
 			return (cmd);
 		}
 	else
@@ -73,14 +74,13 @@ int			main(int argc, char **argv, char **environ)
 	{
 		if (*buf)
 		{
-			if ((cmd = parse_command(*buf)))
+			if ((cmd = parse_command(*buf, msh)))
 			{
-				print_detail_cmd(cmd);
 				exec_cmd(&cmd, &msh, NULL);
 			}
 		}
 		free_cmd(cmd);
-		ft_putstr("minsh:> ");
+		ft_putstr("\x1B[32mminsh:>\x1B[0m ");
 	}
 	free_path();
 	return (0);

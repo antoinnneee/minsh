@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abureau <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/20 13:50:08 by abureau           #+#    #+#              #
-#    Updated: 2016/11/20 13:50:08 by abureau          ###   ########.fr        #
+#    Created: 2016/11/21 11:43:51 by abureau           #+#    #+#              #
+#    Updated: 2016/11/21 11:43:51 by abureau          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -15,6 +15,7 @@ NAME = minsh
 SRC = ./src/atoibase.c \
 	./src/beg.c \
 	./src/builtin.c \
+	./src/check_env.c \
 	./src/echo.c \
 	./src/echo_p.c \
 	./src/env.c \

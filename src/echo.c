@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 20:00:55 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/19 20:27:32 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 13:20:38 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,9 @@ static void			printhexa(const char *str, int *i)
 	int		len;
 	char	*sub;
 
-	if ((len = get_len(str, 16, 2)))
+	if ((len = get_len(str, 16, 1)))
 	{
 		sub = ft_strsub(str, 0, len + 1);
-		ft_putendl(sub);
 		if (sub)
 		{
 			ft_putchar((char)ft_atoi_base(sub, 16));
@@ -81,9 +80,6 @@ static void			printoct(const char *str, int *i)
 	if ((len = get_len(str, 8, 2)))
 	{
 		sub = ft_strsub(str, 0, len + 1);
-		ft_putendl("sub :");
-		ft_putendl(sub);
-		ft_putendl(": sub");
 		if (sub)
 		{
 			ft_putchar((char)ft_atoi_base(sub, 8));
@@ -94,30 +90,39 @@ static void			printoct(const char *str, int *i)
 	echoflag(WRITE, 0);
 }
 
+static void			testflag(const char *str, unsigned int opt, int *i)
+{
+	if (echoflag(READ, OCT))
+		printoct(&str[*i], i);
+	if (echoflag(READ, HEXA))
+		printhexa(&str[*i], i);
+}
+
 void				echoprint(const char *str, unsigned int opt)
 {
 	int	i;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
 		if (echoflag(READ, STOP))
 			return ;
-		if (echoflag(READ, OCT))
+		testflag(str, opt, &i);
+		if (str[i] == '\\')
 		{
-			printoct(&str[i], &i);
-		}
-		if (echoflag(READ, HEXA))
-		{
-			printhexa(&str[i], &i);
-		}
-		if ((opt & (1U << 1)))
-			if (str[i] == '\\')
+			if ((opt & (1U << 1)))
 				echoprintchar(&str[++i]);
 			else
-				ft_putchar(str[i]);
+				ft_putchar(str[++i]);
+		}
+		else if (str[i] == '\'')
+		{
+			if (str[i + 1] == '\\')
+				echoprintchar(&str[i = i + 2]);
+			else
+				ft_putchar(str[++i]);
+		}
 		else
 			ft_putchar(str[i]);
-		i++;
 	}
 }

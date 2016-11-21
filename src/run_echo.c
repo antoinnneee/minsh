@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 20:21:00 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/19 20:29:52 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 12:06:24 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void			echoprintchar_b(const char *c)
 		echoflag(WRITE, HEXA);
 	else
 	{
-		ft_putchar('\\');
 		ft_putchar(*c);
 	}
 }

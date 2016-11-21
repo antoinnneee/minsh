@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 12:34:15 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 15:11:26 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 12:51:17 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ void		env_param(t_cmd **cmd, t_msh ***msh, t_msh **tmp, int *opt)
 	if ((*cmd)->param[i] && *opt != 42)
 	{
 		*cmd = mod_cmd(cmd, i);
+		reset_path(tmp);
 		exec_cmd(cmd, *msh, tmp);
+		reset_path(*msh);
 		free_msh(tmp);
 		*tmp = NULL;
 	}

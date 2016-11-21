@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 13:49:33 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 19:45:11 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 12:29:41 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,16 @@ void			init_pwd(t_msh **msh)
 t_u64			set_add_path(t_u64 ptr, int state)
 {
 	static t_u64	data = 0;
+	static t_u64	tmp = 0;
 
 	if (state == 1)
 	{
 		data = ptr;
 	}
+	else if (state == 2)
+		tmp = ptr;
+	else if (state == 3)
+		return (tmp);
 	else
 		return (data);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 13:34:53 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 19:42:05 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 12:39:17 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_command{
 
 typedef unsigned long long t_u64;
 
+void			check_env(t_cmd **cmd, t_msh *msh);
 void			init_pwd(t_msh **msh);
 void			inimain(t_msh **msh);
 void			printcd(char *str);
@@ -62,7 +63,7 @@ void			set_env(char *name, char *value, t_msh **env);
 void			unset_env(char *name, t_msh **msh);
 void			add_env(char *name, char *value, t_msh **env);
 void			clear_term(void);
-t_cmd			*parse_command(char *commande);
+t_cmd			*parse_command(char *commande,t_msh *msh);
 t_msh			*copy_env(char **environ);
 char			**copy_path(char **env);
 char			*f_getenv(const char *str, char **env);
@@ -99,5 +100,6 @@ void			setup_catch(void);
 t_u64			set_add_msh(t_u64 ptr, int state);
 t_cmd			**set_add_cmd(t_cmd **ptr, int state);
 int				get_len(const char *str, int base, int max);
+void			reset_path(t_msh **msh);
 
 #endif
