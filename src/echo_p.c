@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 20:31:41 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/21 13:47:38 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 15:49:32 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,13 @@ unsigned int		echoption(char **option)
 			i++;
 		}
 	return (opt);
+}
+
+void				p_env(const char *str)
+{
+	char	**ptr;
+
+	ptr = get_env((char *)str, (t_msh*)set_add_msh(0, 0));
+	if (ptr && *ptr)
+		ft_putendl(*ptr);
 }

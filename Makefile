@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abureau <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/21 14:13:58 by abureau           #+#    #+#              #
-#    Updated: 2016/11/21 14:13:58 by abureau          ###   ########.fr        #
+#    Created: 2016/11/21 15:31:25 by abureau           #+#    #+#              #
+#    Updated: 2016/11/21 15:31:25 by abureau          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -46,7 +46,7 @@ CC = gcc
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -g -Wall -Wextra
 
 all: LIBCOMPILE $(NAME)
 

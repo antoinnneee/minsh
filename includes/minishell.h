@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 13:34:53 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/21 14:11:24 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 15:49:09 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ int				f(char **line, int i);
 int				fb(char ***line, int i);
 int				ft_issymb(const char c);
 t_cmd			*split_cmd(char *str);
+void			p_env(const char *str);
 void			p_exit(const char *str, int value);
 int				ft_itoa_base(char *str, int base);
 int				ft_strlensquare(char **env, int *init);
-t_cmd			*mod_cmd(t_cmd	**cmd, int i);
+t_cmd			*mod_cmd(t_cmd **cmd, int i, t_msh **msh);
 int				isbegin(const char *str, char *big);
 int				beginby(const char *str, char *env);
 char			**get_env(char *name, t_msh *env);

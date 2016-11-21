@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 12:34:15 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/21 14:28:19 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 15:45:53 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		env_param(t_cmd **cmd, t_msh ***msh, t_msh **tmp, int *opt)
 	}
 	if ((*cmd)->param[i] && *opt != 42)
 	{
-		*cmd = mod_cmd(cmd, i);
+		*cmd = mod_cmd(cmd, i, tmp);
 		reset_path(tmp);
 		exec_cmd(cmd, *msh, tmp);
 		reset_path(*msh);
@@ -90,7 +90,7 @@ void		env_unset(t_cmd **cmd, t_msh **tmp, int *opt, t_msh **msh)
 			p_env_unset();
 		else if ((*cmd)->param[1])
 		{
-			*cmd = mod_cmd(cmd, 1);
+			*cmd = mod_cmd(cmd, 1, msh);
 			exec_cmd(cmd, msh, tmp);
 		}
 		else

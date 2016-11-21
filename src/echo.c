@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 20:00:55 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/21 13:48:04 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 15:48:10 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ static void			testflag(const char *str, int *i)
 		printhexa(&str[*i], i);
 }
 
+static int			echochose(unsigned int opt, const char *str, int i)
+{
+	if ((opt & (1U << 1)))
+		echoprintchar(&str[++i]);
+	else
+		ft_putchar(str[++i]);
+	return (i);
+}
+
 void				echoprint(const char *str, unsigned int opt)
 {
 	int	i;
@@ -69,10 +78,7 @@ void				echoprint(const char *str, unsigned int opt)
 		testflag(str, &i);
 		if (str[i] == '\\')
 		{
-			if ((opt & (1U << 1)))
-				echoprintchar(&str[++i]);
-			else
-				ft_putchar(str[++i]);
+			i = echochose(opt, str, i);
 		}
 		else if (str[i] == '\'')
 		{
@@ -81,6 +87,8 @@ void				echoprint(const char *str, unsigned int opt)
 			else
 				ft_putchar(str[++i]);
 		}
+		else if (str[i] == '$')
+			return (p_env(&str[i]));
 		else
 			ft_putchar(str[i]);
 	}
