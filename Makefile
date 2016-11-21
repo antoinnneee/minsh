@@ -5,12 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abureau <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/21 11:43:51 by abureau           #+#    #+#              #
-#    Updated: 2016/11/21 11:43:51 by abureau          ###   ########.fr        #
+#    Created: 2016/11/21 14:13:58 by abureau           #+#    #+#              #
+#    Updated: 2016/11/21 14:13:58 by abureau          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-NAME = minsh
+NAME = minishell
 
 SRC = ./src/atoibase.c \
 	./src/beg.c \
@@ -46,7 +46,7 @@ CC = gcc
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -g -Wall -Wextra
+CFLAGS = -Wall -Werror -Wextra
 
 all: LIBCOMPILE $(NAME)
 

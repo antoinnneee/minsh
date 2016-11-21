@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:08:52 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/21 13:37:41 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 14:12:47 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,24 @@ void		run_cd(t_cmd *cmd, t_msh *msh)
 void		run_unset(t_cmd *cmd, t_msh **msh)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	if (cmd->param)
+	j = 0;
+	while (cmd->param && cmd->param[j])
 	{
 		while ((*msh)->env[i])
 		{
-			if (beginby(cmd->param[0], (*msh)->env[i]))
+			if (beginby(cmd->param[j], (*msh)->env[i]))
 			{
-				unset_env(cmd->param[0], msh);
-				return ;
+				unset_env(cmd->param[j], msh);
 			}
 			i++;
 		}
+		i = 0;
+		j++;
 	}
+	return ;
 }
 
 void		run_pwd(void)

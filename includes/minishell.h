@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 13:34:53 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/21 13:45:34 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 14:11:24 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			set_env(char *name, char *value, t_msh **env);
 void			unset_env(char *name, t_msh **msh);
 void			add_env(char *name, char *value, t_msh **env);
 void			clear_term(int argc, char **argv);
-t_cmd			*parse_command(char *commande,t_msh *msh);
+t_cmd			*parse_command(char *commande, t_msh *msh);
 t_msh			*copy_env(char **environ);
 char			**copy_path(char **env);
 char			*f_getenv(const char *str, char **env);

@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 13:03:18 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 17:19:14 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 14:17:22 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void		fork_process(char *scat, t_msh **msh, char **env)
 	if (env && (*msh)->env)
 		execve(scat, env, (*msh)->env);
 	else if (env)
-		execv(scat, env);
+		execve(scat, env, NULL);
+	else
+		ft_putendl("fork commande error");
 	exit(0);
 }
 
