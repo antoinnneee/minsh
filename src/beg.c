@@ -6,13 +6,21 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:04:07 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 15:22:23 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 13:48:31 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/includes/libft.h"
+#include "../includes/minishell.h"
 
-int	isbegin(const char *str, char *big)
+void		inimain(t_msh **msh)
+{
+	init_pwd(msh);
+	set_add_msh((t_u64)*msh, 1);
+	set_add_path((t_u64)copy_path((*msh)->env), 1);
+}
+
+int			isbegin(const char *str, char *big)
 {
 	if (ft_strncmp(str, big, ft_strlen(str)))
 		return (0);
@@ -30,7 +38,7 @@ int	isbegin(const char *str, char *big)
 		return (1);
 }
 
-int	beginby(const char *str, char *env)
+int			beginby(const char *str, char *env)
 {
 	while (*str && *env && *str == *env)
 	{

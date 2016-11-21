@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 11:47:18 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/21 13:07:49 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 13:47:35 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 #include <stdlib.h>
 #include "../includes/minishell.h"
 
-void		clear_term(void)
+void		clear_term(int argc, char **argv)
 {
+	argc = 0;
+	argv = NULL;
 	ft_putstr("\033[2J\033[1;1H\033[32mminsh:>\033[0m ");
 }
 
@@ -51,20 +53,13 @@ t_cmd		*parse_command(char *tmp, t_msh *msh)
 		return (NULL);
 }
 
-void		inimain(t_msh **msh)
-{
-	init_pwd(msh);
-	set_add_msh((t_u64)*msh, 1);
-	set_add_path((t_u64)copy_path((*msh)->env), 1);
-}
-
 int			main(int argc, char **argv, char **environ)
 {
 	char	**buf;
 	t_msh	*msh;
 	t_cmd	*cmd;
 
-	clear_term();
+	clear_term(argc, argv);
 	msh = copy_env(environ);
 	inimain(&msh);
 	buf = (char**)ft_memalloc(sizeof(char*));

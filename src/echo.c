@@ -6,53 +6,12 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 20:00:55 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/21 13:20:38 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 13:48:04 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
-
-static	void		echoption_b(char **option, int *opt, int i)
-{
-	if (isbegin("-n", option[i]))
-		*opt = *opt | (1U << 0);
-	else if (isbegin("-e", option[i]))
-		*opt = *opt | (1U << 1);
-	else if (isbegin("-E", option[i]))
-		*opt = *opt | (1U << 2);
-	else
-		ft_putstr(option[i]);
-}
-
-unsigned int		echoption(char **option)
-{
-	int	i;
-	int	opt;
-
-	i = 0;
-	opt = 0;
-	if (option)
-		while (option[i])
-		{
-			if (isbegin("--help", option[i]))
-			{
-				print_echo_h();
-				opt = opt | (1U << 3);
-				return (opt);
-			}
-			else if (isbegin("--version", option[i]))
-			{
-				print_echo_v();
-				opt = opt | (1U << 3);
-				return (opt);
-			}
-			else
-				echoption_b(option, &opt, i);
-			i++;
-		}
-	return (opt);
-}
 
 static void			printhexa(const char *str, int *i)
 {
@@ -90,7 +49,7 @@ static void			printoct(const char *str, int *i)
 	echoflag(WRITE, 0);
 }
 
-static void			testflag(const char *str, unsigned int opt, int *i)
+static void			testflag(const char *str, int *i)
 {
 	if (echoflag(READ, OCT))
 		printoct(&str[*i], i);
@@ -107,7 +66,7 @@ void				echoprint(const char *str, unsigned int opt)
 	{
 		if (echoflag(READ, STOP))
 			return ;
-		testflag(str, opt, &i);
+		testflag(str, &i);
 		if (str[i] == '\\')
 		{
 			if ((opt & (1U << 1)))

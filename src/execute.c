@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 18:50:45 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 17:28:02 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 13:30:54 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ void			execute(char *name, t_cmd *cmd, t_msh **msh)
 	if (cmd->prog[0] == '.')
 		state = exe_search(name, cmd, msh);
 	else if (path)
-	{
 		while (path[++i] && state == 0)
 		{
 			scat = (char*)ft_memalloc(sizeof(char) *
@@ -135,12 +134,11 @@ void			execute(char *name, t_cmd *cmd, t_msh **msh)
 			scat = ft_strcat(scat, path[i]);
 			scat = ft_strcat(scat, "/");
 			scat = ft_strcat(scat, name);
-		 	state = exe_search(scat, cmd, msh);
+			state = exe_search(scat, cmd, msh);
 			if (scat)
 				ft_strdel(&scat);
 		}
-	}
 	if (state == 0)
-			state = exe_search(name, cmd, msh);
+		state = exe_search(name, cmd, msh);
 	p_exec_error(name, cmd->prog, state);
 }

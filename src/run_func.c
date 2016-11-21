@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/14 17:08:52 by abureau           #+#    #+#             */
-/*   Updated: 2016/11/20 19:37:46 by abureau          ###   ########.fr       */
+/*   Updated: 2016/11/21 13:37:41 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	init_cd(char **tmp, char ***old, t_msh **msh, int *state)
 {
 	char	**str;
 
+	init_pwd(msh);
 	str = get_env("HOME=", *msh);
 	*state = 0;
 	if (str)
@@ -40,24 +41,18 @@ void		run_cd(t_cmd *cmd, t_msh *msh)
 	char	*tmp;
 	int		state;
 
-	if (!msh->env)
-		return ;
-	init_pwd(&msh);
 	init_cd(&tmp, &old, &msh, &state);
-	ft_putendl("passed");
 	if (cmd->param && *cmd->param && cmd->param[0][0] == '~' && state)
 		chdir(ft_strchr(*get_env("HOME=", msh), '=') + 1);
 	else if (cmd->param && *cmd->param)
 	{
 		if (chdir(cmd->param[0]) == -1)
-		{
 			printcd(cmd->param[0]);
-		}
 	}
-	else if (cmd->option && !(ft_strcmp(cmd->option[0], "-")) )
+	else if (cmd->option && !(ft_strcmp(cmd->option[0], "-")))
 	{
 		chdir(ft_strchr(*get_env("PWD=", msh), '=') + 1);
-		ft_putendl(ft_strchr(*get_env("PWD=", msh), '=' ) + 1);
+		ft_putendl(ft_strchr(*get_env("PWD=", msh), '=') + 1);
 	}
 	else if (state)
 		chdir(ft_strchr(*get_env("HOME=", msh), '=') + 1);
